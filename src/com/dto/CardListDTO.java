@@ -1,18 +1,24 @@
 package com.dto;
 
+import java.util.ArrayList;
 
 public class CardListDTO {
 	private int num;
 	private String title;
 	private int boardNum;
-	private int[] cardNumArray;
+	private ArrayList<CardDTO> cards;
 	
-	public CardListDTO(int num, String title, int boardNum, int[] cardNumArray)
+	public CardListDTO(int num, String title, int boardNum, ArrayList<CardDTO> cards)
 	{
 		this.num = num;
 		this.title = title;
 		this.boardNum = boardNum;
-		this.cardNumArray = cardNumArray;
+		this.cards = cards;
+	}
+	
+	public CardListDTO(int num, String title, int boardNum)
+	{
+		this(num, title, boardNum, new ArrayList<CardDTO>());
 	}
 	
 	public int getNum() {
@@ -33,10 +39,12 @@ public class CardListDTO {
 	public void setBoardNum(int boardNum) {
 		this.boardNum = boardNum;
 	}
-	public int[] getCardNumArray() {
-		return cardNumArray;
+
+	public ArrayList<CardDTO> getCards() {
+		return cards;
 	}
-	public void setCardNumArray(int[] cardNumArray) {
-		this.cardNumArray = cardNumArray;
+
+	public void setCards(ArrayList<CardDTO> cards) {
+		this.cards = cards;
 	}
 }

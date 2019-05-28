@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<!-- taglib은 c:forEach를 쓰기 위해 추가한 것임. -->
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -189,129 +192,269 @@
 		    color: hsla(0,0%,100%,.8);
 		}
 		
+		
+		/* The Modal (background) */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+         .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 350px; /* Could be more or less, depending on screen size */                          
+        }
+        
+        .btnSubmit
+		{
+		    width: 50%;
+		    border-radius: 3;
+		    margin-top: 20px;
+		   	margin-right: auto;
+		   	margin-left: auto;
+		    padding: 1.5%;
+		    border: none;
+		    cursor: pointer;
+		}
+		
+		
     </style>
+    
+    <script>
+    function deleteCardList(cardListNum)
+    {
+    	var form = document.submitForm;
+    	var boardnum = '<c:out value="${param.boardnum}"/>';
+    	form.things.value = cardListNum;
+    	form.action = "deleteCardListCommand.do?boardnum="+boardnum;
+    	form.submit();
+    }
+    
+    function addCard(cardListNum)
+    {
+    	var form = document.submitForm;
+    	var boardnum = '<c:out value="${param.boardnum}"/>';
+    	form.things.value = cardListNum;
+    	form.action = "addCardListCommand.do?boardnum="+boardnum;
+    	form.submit();
+    }
+    
+    function checkCardListValue()
+    {
+    	var title = document.addCardListForm.newCardListTitle;
+    	
+    	if(!title.value)
+    	{
+    		alert("카드 리스트의 이름을 입력해주세요!");
+    		title.focus();
+    		return false
+    	}
+    }
+    
+    function addCardList()
+    {
+    	// Get the modal
+    	var modal = document.getElementById('addCardListModal');
+    	modal.style.display = "block";
+    }
+    
+    function close()
+    {
+    	// Get the <span> element that closes the modal
+    	var span = document.getElementsByClassName("close")[0];
+    	
+    	var modal = document.getElementById('addCardListModal');
+    	modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+    	var modal = document.getElementById('addCardListModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    </script>
 
 </head>
 <body style="background-color: rgb(0, 121, 191);">
 
-<div class="card-list-board-contrainer">
-	<div class="card-list-wrapper">
-		<div class="card-list-container">
-	  		<div class="card-list-header-container">
-		  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-	  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 1 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드  2입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 3 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 4 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 5 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 6 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 7 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 8 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="card-list-content-container">
-	 			<div class="card-content-container">
-	 				<span class="card-title">카드 9 입니다.</span>
-	 			</div>
-	 		</div>
-	 		
-	 		<div class="add-card-container">
-				<i class="material-icons add-icon">add</i>
-				<span class="add-card-text">카드 추가하기</span>
-			</div>
-	  	</div>
-	</div>
-  
-	<div class="card-list-wrapper">
-		<div class="card-list-container">
-	  		<div class="card-list-header-container">
-		  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-	  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-	 		</div>
-	 		
-	 		<div class="add-card-container">
-				<i class="material-icons add-icon">add</i>
-				<span class="add-card-text">카드 추가하기</span>
-			</div>
-	  	</div>
-  	</div>
-	  	
-  	<div class="card-list-wrapper">
-		<div class="card-list-container">
-	  		<div class="card-list-header-container">
-		  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-	  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-	 		</div>
-	 		
-	 		<div class="add-card-container">
-				<i class="material-icons add-icon">add</i>
-				<span class="add-card-text">카드 추가하기</span>
-			</div>
-	  	</div>
-	</div>
-	
-	<div class="card-list-wrapper">
-	  	<div class="card-list-container">
-	  		<div class="card-list-header-container">
-		  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-	  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-	 		</div>
-	 		
-	 		<div class="add-card-container">
-				<i class="material-icons add-icon">add</i>
-				<span class="add-card-text">카드 추가하기</span>
-			</div>
-	  	</div>
-	</div>
-	
-	<div class="card-list-wrapper">
-		<div class="add-card-list-container">
-			<i class="material-icons add-icon add-card-list">add</i>
-			<span class="add-card-list-text">카드 리스트 추가하기</span>
+	<!-- 뭔가를 submit하려고 만든 폼 -->
+	<form name="submitForm" style="display:none">
+		<input type="hidden" name="things"/>
+	</form>
+
+	<!-- The 카드 리스트 추가 Modal -->
+	<div id ="addCardListModal" class="modal">
+		
+		<div class="modal-content">
+			<form name="addCardListForm" action="addCardListCommand.do?boardnum=${param.boardnum}" method="post" onsubmit="return checkCardListValue()">
+				<h2>카드 리스트 추가</h2>
+				카드 리스트 이름<br>
+				<input type="text" name="newCardListTitle"/>
+				<input class="btnSubmit" type="submit" value="추가"/>
+			</form>
 		</div>
 	</div>
-</div>
+
+	<div class="card-list-board-contrainer">
+		<c:forEach items="${cardListArray}" var="cardlistDTO">
+			<div class="card-list-wrapper">
+				<div class="card-list-container">
+				
+					<!-- card list header -->
+			  		<div class="card-list-header-container">
+				  		<button class="card-list-header-extra" onclick="deleteCardList(${cardlistDTO.num})"> <i class="material-icons delete-icon">delete</i> </button>
+			  			<h2 class="card-list-header-name">${cardlistDTO.title}</h2>
+			 		</div>
+			 		
+			 		<!-- card list content(card) -->
+			 		<c:forEach items="${cardlistDTO.cards}" var="cardDTO">
+				 		<div class="card-list-content-container">
+				 			<div class="card-content-container">
+				 				<span class="card-title">${cardDTO.title}</span>
+				 			</div>
+			 			</div>
+		 			</c:forEach>
+		 			
+		 			<!-- add card -->
+		 			<div class="add-card-container" onclick="addCard(${cardlistDTO.num})">
+						<i class="material-icons add-icon">add</i>
+						<span class="add-card-text">카드 추가하기</span>
+					</div>
+		 		</div>
+		 	</div>
+		</c:forEach>
+	
+		<div class="card-list-wrapper">
+			<div class="card-list-container">
+		  		<div class="card-list-header-container">
+			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
+		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 1 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드  2입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 3 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 4 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 5 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 6 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 7 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 8 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="card-list-content-container">
+		 			<div class="card-content-container">
+		 				<span class="card-title">카드 9 입니다.</span>
+		 			</div>
+		 		</div>
+		 		
+		 		<div class="add-card-container" onclick="addCard(${cardlistDTO.num})">
+					<i class="material-icons add-icon">add</i>
+					<span class="add-card-text">카드 추가하기</span>
+				</div>
+		  	</div>
+		</div>
+	  
+		<div class="card-list-wrapper">
+			<div class="card-list-container">
+		  		<div class="card-list-header-container">
+			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
+		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
+		 		</div>
+		 		
+		 		<div class="add-card-container">
+					<i class="material-icons add-icon">add</i>
+					<span class="add-card-text">카드 추가하기</span>
+				</div>
+		  	</div>
+	  	</div>
+		  	
+	  	<div class="card-list-wrapper">
+			<div class="card-list-container">
+		  		<div class="card-list-header-container">
+			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
+		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
+		 		</div>
+		 		
+		 		<div class="add-card-container">
+					<i class="material-icons add-icon">add</i>
+					<span class="add-card-text">카드 추가하기</span>
+				</div>
+		  	</div>
+		</div>
+		
+		<div class="card-list-wrapper">
+		  	<div class="card-list-container">
+		  		<div class="card-list-header-container">
+			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
+		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
+		 		</div>
+		 		
+		 		<div class="add-card-container">
+					<i class="material-icons add-icon">add</i>
+					<span class="add-card-text">카드 추가하기</span>
+				</div>
+		  	</div>
+		</div>
+		
+		<div class="card-list-wrapper">
+			<div class="add-card-list-container" id="addCardListBtn" onclick="addCardList()">
+				<i class="material-icons add-icon add-card-list">add</i>
+				<span class="add-card-list-text">카드 리스트 추가하기</span>
+			</div>
+		</div>
+	</div>
 
 </body>
 </html>

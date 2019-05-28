@@ -9,16 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.service.AddCardCommand;
+import com.service.AddCardListCommand;
+import com.service.CardListBoardCommand;
 import com.service.Command;
 import com.service.CommandForward;
-import com.service.IdCheckCommand;
-import com.service.JoinCommand;
-import com.service.LoginCommand;
+import com.service.DeleteCardListCommand;
 
-@WebServlet({"/main.do","/loginCommand.do","/join.do","/joinCommand.do","/idChkCommand.do"})
-public class LoginController extends HttpServlet {
-	private static final long serialVersionUID = -2150843596896643342L;
-
+@WebServlet({"/cardListBoard.do", "/addCardListCommand.do", "/deleteCardListCommand.do", "/addCardCommand.do"})
+public class CardListBoardController extends HttpServlet {
+	private static final long serialVersionUID = -1455852485594261268L;
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		doProcess( request, response);
 	}
@@ -38,31 +39,24 @@ public class LoginController extends HttpServlet {
 	    CommandForward forward = null;
 	    Command command = null;
 	    
-	    // 메인화면
-	    if(com.equals("/main.do")) {
-	    	forward = new CommandForward();
-	    	forward.setRedirect(false);
-	    	forward.setNextPath("loginForm.jsp");
-	    }
-	    // 회원가입 화면
-	    else if(com.equals("/join.do")) {
-	    	forward = new CommandForward();
-	    	forward.setRedirect(false);
-	    	forward.setNextPath("joinForm.jsp");
-	    }
-	    // 로그인 처리
-	    else if(com.equals("/loginCommand.do")) {
-	    	command = new LoginCommand();
+	    // 카드리스트 게시판 화면 (작은거)
+	    if(com.equals("/cardListBoard.do")) {
+	    	command = new CardListBoardCommand();
 	    	forward = command.execute(request, response);
 	    }
-	    // 회원가입 처리
-	    else if(com.equals("/joinCommand.do")) {
-	    	command = new JoinCommand();
+	    // 카드 리스트 추가 처리
+	    else if(com.equals("/addCardListCommand.do")) {
+	    	command = new AddCardListCommand();
 	    	forward = command.execute(request, response);
 	    }
-	    // 아이디 중복 확인 처리
-	    else if(com.equals("/idChkCommand.do")) {
-	    	command = new IdCheckCommand();
+	    // 카드 리스트 삭제 처리
+	    else if(com.equals("/deleteCardListCommand.do")) {
+	    	command = new DeleteCardListCommand();
+	    	forward = command.execute(request, response);
+	    }
+	    // 카드 추가 처리
+	    else if(com.equals("/addCardCommand.do")) {
+	    	command = new AddCardCommand();
 	    	forward = command.execute(request, response);
 	    }
 	    
