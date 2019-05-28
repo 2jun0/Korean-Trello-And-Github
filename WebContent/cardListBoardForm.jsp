@@ -216,6 +216,15 @@
             width: 350px; /* Could be more or less, depending on screen size */                          
         }
         
+         .modal-content.card {
+            background-color: #fefefe;
+            margin: 10% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 700px; /* Could be more or less, depending on screen size */  
+            height: 550px;
+        }
+        
         .btnSubmit
 		{
 		    width: 50%;
@@ -232,21 +241,19 @@
     </style>
     
     <script>
+    function reload()
+    {
+    	window.location.reload();
+    }
+    
     function deleteCardList(cardListNum)
     {
     	var form = document.submitForm;
     	var boardnum = '<c:out value="${param.boardnum}"/>';
+    	
+    	form.boardnum.value = boardnum;
     	form.things.value = cardListNum;
-    	form.action = "deleteCardListCommand.do?boardnum="+boardnum;
-    	form.submit();
-    }
-    
-    function addCard(cardListNum)
-    {
-    	var form = document.submitForm;
-    	var boardnum = '<c:out value="${param.boardnum}"/>';
-    	form.things.value = cardListNum;
-    	form.action = "addCardListCommand.do?boardnum="+boardnum;
+    	form.action = "deleteCardListCommand.do";
     	form.submit();
     }
     
@@ -262,11 +269,31 @@
     	}
     }
     
+    function checkCardValue()
+    {
+    	// TODO: 카트 내용 수정할때 확인하는 코드
+    }
+    
     function addCardList()
     {
     	// Get the modal
     	var modal = document.getElementById('addCardListModal');
     	modal.style.display = "block";
+    }
+    
+    function addCard(cardListNum)
+    {
+    	var modal = document.getElementById('cardModal');
+    	modal.style.display = "block";
+    	
+    	var form = document.submitForm;
+    	var boardnum = '<c:out value="${param.boardnum}"/>';
+    	
+    	form.boardnum.value = boardnum;
+    	form.things.value = cardListNum;
+    	form.action = "addCard.do";
+    	form.target = "cardIframe";
+    	form.submit();
     }
     
     function close()
@@ -284,6 +311,12 @@
         if (event.target == modal) {
             modal.style.display = "none";
         }
+        
+        var modal = document.getElementById('cardModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+            reload();
+        }
     }
 
     </script>
@@ -292,7 +325,8 @@
 <body style="background-color: rgb(0, 121, 191);">
 
 	<!-- 뭔가를 submit하려고 만든 폼 -->
-	<form name="submitForm" style="display:none">
+	<form name="submitForm" style="display:none" method="get">
+		<input type="hidden" name="boardnum"/>
 		<input type="hidden" name="things"/>
 	</form>
 
@@ -306,6 +340,14 @@
 				<input type="text" name="newCardListTitle"/>
 				<input class="btnSubmit" type="submit" value="추가"/>
 			</form>
+		</div>
+	</div>
+	
+	<!-- The 카드 관련 Modal -->
+	<div id ="cardModal" class="modal">
+		<div class="modal-content card">
+			<iframe name="cardIframe" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 vspace=0 style="display: block; height: 100%">
+			</iframe>
 		</div>
 	</div>
 
@@ -337,116 +379,6 @@
 		 		</div>
 		 	</div>
 		</c:forEach>
-	
-		<div class="card-list-wrapper">
-			<div class="card-list-container">
-		  		<div class="card-list-header-container">
-			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 1 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드  2입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 3 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 4 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 5 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 6 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 7 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 8 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="card-list-content-container">
-		 			<div class="card-content-container">
-		 				<span class="card-title">카드 9 입니다.</span>
-		 			</div>
-		 		</div>
-		 		
-		 		<div class="add-card-container" onclick="addCard(${cardlistDTO.num})">
-					<i class="material-icons add-icon">add</i>
-					<span class="add-card-text">카드 추가하기</span>
-				</div>
-		  	</div>
-		</div>
-	  
-		<div class="card-list-wrapper">
-			<div class="card-list-container">
-		  		<div class="card-list-header-container">
-			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-		 		</div>
-		 		
-		 		<div class="add-card-container">
-					<i class="material-icons add-icon">add</i>
-					<span class="add-card-text">카드 추가하기</span>
-				</div>
-		  	</div>
-	  	</div>
-		  	
-	  	<div class="card-list-wrapper">
-			<div class="card-list-container">
-		  		<div class="card-list-header-container">
-			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-		 		</div>
-		 		
-		 		<div class="add-card-container">
-					<i class="material-icons add-icon">add</i>
-					<span class="add-card-text">카드 추가하기</span>
-				</div>
-		  	</div>
-		</div>
-		
-		<div class="card-list-wrapper">
-		  	<div class="card-list-container">
-		  		<div class="card-list-header-container">
-			  		<button class="card-list-header-extra"> <i class="material-icons delete-icon">delete</i> </button>
-		  			<h2 class="card-list-header-name">테스트 카드 리스트</h2>
-		 		</div>
-		 		
-		 		<div class="add-card-container">
-					<i class="material-icons add-icon">add</i>
-					<span class="add-card-text">카드 추가하기</span>
-				</div>
-		  	</div>
-		</div>
 		
 		<div class="card-list-wrapper">
 			<div class="add-card-list-container" id="addCardListBtn" onclick="addCardList()">

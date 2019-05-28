@@ -19,7 +19,7 @@ public class DeleteCardListCommand implements Command {
 		CardListDAO.getInstance().delete(cardListNum);
 		
 		CommandForward forward = new CommandForward();
-		forward.setRedirect(false);
+		forward.setRedirect(true);
 		forward.setNextPath("cardListBoard.do?boardnum="+boardnum);
 		return forward;
 	}

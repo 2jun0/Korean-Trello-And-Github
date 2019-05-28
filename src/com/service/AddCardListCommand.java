@@ -19,7 +19,7 @@ public class AddCardListCommand implements Command {
 		CardListDAO.getInstance().insert(cardListTitle, boardnum);
 		
 		CommandForward forward = new CommandForward();
-		forward.setRedirect(false);
+		forward.setRedirect(true);
 		forward.setNextPath("cardListBoard.do?boardnum="+boardnum);
 		return forward;
 	}
