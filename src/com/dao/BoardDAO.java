@@ -50,7 +50,7 @@ public class BoardDAO {
 			con = dataFactory.getConnection();
 			
 			// 쿼리문
-			String query = "insert into Board (board_name, id_list, made_id) values(?, ?, ?)";
+			String query = "insert into Board (board_name, id_list, made_id) value(?, ?, ?)";
 			
 			pstmt = con.prepareStatement(query);
 			
@@ -135,7 +135,7 @@ public class BoardDAO {
 				
 				String boardName = rs.getString("board_name");
 				String s_idList = rs.getString("id_list");
-				String adminId = rs.getString("adminId");
+				String adminId = rs.getString("admin_id");
 				
 				String[] temp = s_idList.split(";");
 				String[] idList = new String[temp.length-1];
@@ -172,7 +172,7 @@ public class BoardDAO {
 			con = dataFactory.getConnection();
 			
 			// 쿼리문
-			String query = "select concat( idList, ';', ?) from Board where num=?";
+			String query = "select concat( id_list, ';', ?) from Board where num=?";
 			
 			pstmt = con.prepareStatement(query);
 			
@@ -208,11 +208,11 @@ public class BoardDAO {
 			// 커넥션을 가져온다.
 			con = dataFactory.getConnection();
 			
-			String query = "select * from Board where like '%;'?'%";
+			String query = "select * from Board where id_list like ?";
 			
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setString(1, userId);
+			pstmt.setString(1, "%;" + userId + "%");
 			
 			// pstmt.executeQuery()는
 			// select 할때 사용
@@ -223,7 +223,7 @@ public class BoardDAO {
 				int num = rs.getInt("num");
 				String boardName = rs.getString("board_name");
 				String s_idList = rs.getString("id_list");
-				String adminId = rs.getString("adminId");
+				String adminId = rs.getString("made_id");
 				
 				String[] temp = s_idList.split(";");
 				String[] idList = new String[temp.length-1];

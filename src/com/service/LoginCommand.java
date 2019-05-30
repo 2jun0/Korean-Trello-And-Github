@@ -31,7 +31,8 @@ public class LoginCommand implements Command {
 			
 			session.setAttribute("sessionId", id);
 			
-			// TODO : 로그인 성공 후 메인화면으로 이동
+			forward.setRedirect(true);
+			forward.setNextPath("mainlist.do");
 			
 		}else { // 로그인 실패
 			request.setAttribute("login failed", true);

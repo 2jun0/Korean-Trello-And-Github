@@ -15,6 +15,12 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <style type="text/css">
+
+		#logoimg{
+            width:130px;
+            height:30px;
+            margin-left:150%;
+         }
 	
 		.card-list-board-contrainer{
 			display: inline-block;
@@ -326,6 +332,26 @@
 
 </head>
 <body style="background-color: rgb(0, 121, 191);">
+
+	<header class="navbar navbar-expand-sm navbar-dark" style="background-color: #026aa7; height:50px; display:flex;">
+          <div class="collapse navbar-collapse">
+             <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="mainlist.do">홈</a></li>
+                <li class="nav-item"><a class="nav-link" href="mainlist.do">게시판목록</a></li>
+            </ul>
+          </div>
+          
+          <div class="collapse navbar-collapse" style="margin:auto;">
+             <a href="mainlist.do"><img id="logoimg" src="trello1.png"></a>
+          </div>
+          
+          <div class="collapse navbar-collapse">
+            <ul style="margin-left:70%;" class="navbar-nav" >
+               <li class="nav-item"><a onclick="popupAddBoard()" class="nav-link">초대하기</a></li>
+               <li class="nav-item"><a class="nav-link" href="logoutCommand.do">로그아웃</a></li>
+            </ul>
+         </div>
+      </header>
 
 	<!-- 뭔가를 submit하려고 만든 폼 -->
 	<form name="submitForm" style="display:none" method="get">

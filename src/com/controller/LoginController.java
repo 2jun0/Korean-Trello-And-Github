@@ -14,8 +14,9 @@ import com.service.CommandForward;
 import com.service.IdCheckCommand;
 import com.service.JoinCommand;
 import com.service.LoginCommand;
+import com.service.LogoutCommand;
 
-@WebServlet({"/main.do","/loginCommand.do","/join.do","/joinCommand.do","/idChkCommand.do"})
+@WebServlet({"/main.do","/loginCommand.do","/join.do","/joinCommand.do","/idChkCommand.do","/logoutCommand.do"})
 public class LoginController extends HttpServlet {
 	private static final long serialVersionUID = -2150843596896643342L;
 
@@ -63,6 +64,11 @@ public class LoginController extends HttpServlet {
 	    // 아이디 중복 확인 처리
 	    else if(com.equals("/idChkCommand.do")) {
 	    	command = new IdCheckCommand();
+	    	forward = command.execute(request, response);
+	    }
+	    // 로그아웃 처리
+	    else if(com.equals("/logoutCommand.do")) {
+	    	command = new LogoutCommand();
 	    	forward = command.execute(request, response);
 	    }
 	    
