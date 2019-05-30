@@ -60,7 +60,7 @@ hr {
 
 <body>
 
-<form action="">
+<form action="modifyCardCommand.do" method="post">
   <div class="container">
     <h1>카드 수정</h1>
     <p>카드를 수정하려면 양식을 고치십시오.</p>
@@ -72,6 +72,9 @@ hr {
     <label for="description"><b>설명</b></label><br/>
     <input type="text" value="${cardDTO.content}" name="description" required>
 	<br/>
+	<input type="hidden" name="cardlistnum" value="${param.cardlistnum}"/>
+	<input type="hidden" name="cardnum" value="${param.cardnum}"/>
+	
     <button type="submit" class="registerbtn">수정 완료</button>
   </div>
 

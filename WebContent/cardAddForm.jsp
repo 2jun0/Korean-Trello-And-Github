@@ -60,7 +60,7 @@ hr {
 
 <body>
 
-<form action="cardAddCommand.do">
+<form action="addCardCommand.do">
   <div class="container">
     <h1>카드 추가</h1>
     <p>카드를 만들려면 양식을 입력하십시오.</p>
@@ -72,6 +72,8 @@ hr {
     <label for="description"><b>설명</b></label><br/>
     <input type="text" placeholder="설명 입력" name="description" required>
 	<br/>
+	<input type="hidden" name="cardlistnum" value="${param.cardlistnum}"/>
+	
     <button type="submit" class="registerbtn">추가 완료</button>
   </div>
 

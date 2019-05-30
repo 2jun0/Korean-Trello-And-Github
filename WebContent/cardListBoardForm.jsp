@@ -286,23 +286,26 @@
     	var modal = document.getElementById('cardModal');
     	modal.style.display = "block";
     	
-    	var form = document.submitForm;
-    	var boardnum = '<c:out value="${param.boardnum}"/>';
+    	var form = document.submitCardForm;
     	
-    	form.boardnum.value = boardnum;
-    	form.things.value = cardListNum;
+    	form.cardlistnum.value = cardListNum;
     	form.action = "addCard.do";
     	form.target = "cardIframe";
     	form.submit();
     }
     
-    function close()
+    function showCard(cardNum, cardListNum)
     {
-    	// Get the <span> element that closes the modal
-    	var span = document.getElementsByClassName("close")[0];
+    	var modal = document.getElementById('cardModal');
+    	modal.style.display = "block";
     	
-    	var modal = document.getElementById('addCardListModal');
-    	modal.style.display = "none";
+    	var form = document.submitCardForm;
+    	
+    	form.cardlistnum.value = cardListNum;
+    	form.cardnum.value = cardNum;
+    	form.action = "card.do";
+    	form.target = "cardIframe";
+    	form.submit();
     }
 
     // When the user clicks anywhere outside of the modal, close it
@@ -328,6 +331,12 @@
 	<form name="submitForm" style="display:none" method="get">
 		<input type="hidden" name="boardnum"/>
 		<input type="hidden" name="things"/>
+	</form>
+	
+	<!-- 카드 추가 및 보여주기 submit하기 위한 폼 -->
+	<form name="submitCardForm" style="display:none" method="get">
+		<input type="hidden" name="cardlistnum"/>
+		<input type="hidden" name="cardnum"/>
 	</form>
 
 	<!-- The 카드 리스트 추가 Modal -->
@@ -364,7 +373,7 @@
 			 		
 			 		<!-- card list content(card) -->
 			 		<c:forEach items="${cardlistDTO.cards}" var="cardDTO">
-				 		<div class="card-list-content-container">
+				 		<div class="card-list-content-container" onclick="showCard(${cardDTO.num}, ${cardDTO.listnum})">
 				 			<div class="card-content-container">
 				 				<span class="card-title">${cardDTO.title}</span>
 				 			</div>

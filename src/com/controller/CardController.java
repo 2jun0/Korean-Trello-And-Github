@@ -9,16 +9,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.service.AddCardListCommand;
+import com.service.CardAddCommand;
+import com.service.CardCommand;
+import com.service.CardDeleteCommand;
 import com.service.CardListBoardCommand;
+import com.service.CardModifyCommand;
 import com.service.Command;
 import com.service.CommandForward;
-import com.service.DeleteCardListCommand;
 
 // cardListTitle : 카드리스트 이름
 // cardDTO
 
-@WebServlet({"/card.do", "/addCard.do", "/addCardCommand.do", "/deleteCardCommand.do", "/modifyCardCommand.do"})
+@WebServlet({"/card.do", "/addCard.do", "/modifyCard.do", "/addCardCommand.do", "/deleteCardCommand.do", "/modifyCardCommand.do"})
 public class CardController extends HttpServlet {
 	private static final long serialVersionUID = 5477672255570826308L;
 
@@ -43,40 +45,45 @@ public class CardController extends HttpServlet {
 	    
 	    // 카드 뵤여주기
 	    if(com.equals("/card.do")) {
-	    	command = new CardListBoardCommand();
+	    	command = new CardCommand();
 	    	forward = command.execute(request, response);
 	    }
 	    // 카드 추가하기
 	    else if(com.equals("/addCard.do")) {
 	    	forward = new CommandForward();
-			forward.setRedirect(true);
-			forward.setNextPath("cardAddForm.jsp");
+			forward.setRedirect(false);
+			
+			int cardListNum = Integer.parseInt(request.getParameter("cardlistnum"));
+			
+			forward.setNextPath("cardAddForm.jsp?cardlistnum="+cardListNum);
 	    }
 	    // 카드 수정하기
 	    else if(com.equals("/modifyCard.do")) {
 	    	// dto값 얻으려고 하는것임.
-	    	command = new CardListBoardCommand();
+	    	command = new CardCommand();
 	    	command.execute(request, response);
+	    	
+	    	int cardListNum = Integer.parseInt(request.getParameter("cardlistnum"));
+	    	int cardNum = Integer.parseInt(request.getParameter("cardnum"));
 	    	
 	    	forward = new CommandForward();
 			forward.setRedirect(true);
-			forward.setNextPath("cardModifyForm.jsp");
+			forward.setNextPath("cardModifyForm.jsp?cardlistnum="+cardListNum+"&cardnum="+cardNum);
 	    }
 	    // 카드 추가 처리
 	    else if(com.equals("/addCardCommand.do")) {
-	    	//forward = new CommandForward();
-	    	//command = new AddCardListCommand();
-	    	//forward = command.execute(request, response);
+	    	command = new CardAddCommand();
+	    	forward = command.execute(request, response);
 	    }
 	    // 카드 삭제 처리
 	    else if(com.equals("/deleteCardCommand.do")) {
-	    	//command = new DeleteCardListCommand();
+	    	command = new CardDeleteCommand();
 	    	forward = command.execute(request, response);
 	    }
 	    // 카드 수정 처리
 	    else if(com.equals("/modifyCardCommand.do")) {
-	    	//command = new AddCardCommand();
-	    	//forward = command.execute(request, response);
+	    	command = new CardModifyCommand();
+	    	forward = command.execute(request, response);
 	    }
 	    
 	    if(forward != null) {

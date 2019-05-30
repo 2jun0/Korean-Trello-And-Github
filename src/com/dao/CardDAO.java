@@ -38,10 +38,54 @@ public class CardDAO {
 	}
 	// 싱글톤 여기까지!
 	
-	public void insert(String title, String content, int listnum) {
+	public CardDTO getLastInsertCard(Connection con)
+	{
+		PreparedStatement pstmt = null;
+		ResultSet rs;	
+		
+		CardDTO dto = null;
+		
+		try {
+			// 커넥션을 가져온다.
+			
+			String query = "select * from Card where num = LAST_INSERT_ID()";
+			
+			pstmt = con.prepareStatement(query);
+			
+			// pstmt.executeQuery()는
+			// select 할때 사용
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) { // 해당하는 카드리스트가 있는 경우
+				
+				int num2 = rs.getInt("num");
+				String title2 = rs.getString("title");
+				String content2 = rs.getString("content");
+				int listnum2 = rs.getInt("listnum");
+				
+				dto = new CardDTO(num2, title2, content2, listnum2);
+			}
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null)pstmt.close();
+				if(con != null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return dto;
+	}
+	
+	public CardDTO insert(String title, String content, int listnum) {
 		
 		Connection con = null;
 		PreparedStatement pstmt = null;
+
+		CardDTO dto = null;
 		
 		try {
 			// 커넥션을 가져온다.
@@ -61,6 +105,9 @@ public class CardDAO {
 			// pstmt.executeUpdate()는
 			// Insert, update, delete, create, drop할때 사용 
 			int n = pstmt.executeUpdate();
+			
+			dto = getLastInsertCard(con);
+			
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -71,6 +118,8 @@ public class CardDAO {
 				e.printStackTrace();
 			}
 		}
+		
+		return dto;
 	}
 	
 	public void delete(int cardNum){
@@ -82,7 +131,7 @@ public class CardDAO {
 			con = dataFactory.getConnection();
 			
 			// 쿼리문
-			String query = "delete from CardList where num=?";
+			String query = "delete from Card where num=?";
 			
 			pstmt = con.prepareStatement(query);
 			
@@ -154,6 +203,41 @@ public class CardDAO {
 		return dto;
 	}
 	
+	// 카드 수정
+	public void update(int num, String title, String content) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			// 커넥션을 가져온다.
+			con = dataFactory.getConnection();
+			
+			// 쿼리문
+			String query = "update Card set title = ?, content = ?  where num=?";
+			
+			pstmt = con.prepareStatement(query);
+			
+			// 쿼리문에 값 입력
+			pstmt.setString(1, title);
+			pstmt.setString(2, content);
+			pstmt.setInt(3, num);
+			
+			// 쿼리문 실행
+			int n = pstmt.executeUpdate();
+			
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(pstmt != null)pstmt.close();
+				if(con != null)con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
 	// 카드 불러오기
 	public ArrayList<CardDTO> list (int cardListNum) {
 		
@@ -167,7 +251,7 @@ public class CardDAO {
 			// 커넥션을 가져온다.
 			con = dataFactory.getConnection();
 			
-			String query = "select * from Card where num=?";
+			String query = "select * from Card where listnum=?";
 			
 			pstmt = con.prepareStatement(query);
 			

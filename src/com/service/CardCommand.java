@@ -15,13 +15,14 @@ public class CardCommand implements Command {
 		response.setContentType("text/html;charset=UTF-8");
 		
 		int cardnum = Integer.parseInt(request.getParameter("cardnum"));
+		int cardlistnum = Integer.parseInt(request.getParameter("cardlistnum"));
 		
 		CardDTO dto = CardDAO.getInstance().retrieve(cardnum);
 		request.setAttribute("cardDTO", dto);
 		
 		CommandForward forward = new CommandForward();
 		forward.setRedirect(false);
-		forward.setNextPath("card.do?cardnum="+cardnum);
+		forward.setNextPath("cardForm.jsp?cardlistnum="+cardlistnum+"&cardnum="+cardnum);
 		return forward;
 	}
 

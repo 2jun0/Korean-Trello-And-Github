@@ -74,8 +74,6 @@ hr {
 </head>
 
 <body>
-
-<form action="">
   <div class="container">
     <h1>카드 정보</h1>
     <p>선택한 카드의 세부 내용 입니다.</p>
@@ -87,11 +85,8 @@ hr {
     <label for="description"><b>설명</b></label><br/>
     <input type="text" value="${cardDTO.content}" name="description" disabled='disabled'>
 	<br/>
-    <button type="submit" class="registerbtn1">카드 수정</button>
-    <button type="submit" class="registerbtn2">카드 삭제</button>
+    <a href="modifyCard.do?cardlistnum=${param.cardlistnum}&cardnum=${param.cardnum}" class="registerbtn1">카드 수정</a>
+    <a href="deleteCardCommand.do?cardlistnum=${param.cardlistnum}&cardnum=${param.cardnum}" class="registerbtn2">카드 삭제</a>
   </div>
-
-</form>
-
 </body>
 </html>
