@@ -14,11 +14,12 @@ import com.service.CardListBoardCommand;
 import com.service.Command;
 import com.service.CommandForward;
 import com.service.DeleteCardListCommand;
+import com.service.InviteCommand;
 
 // cardListTitle : 카드리스트 이름
 // cardDTO
 
-@WebServlet({"/cardListBoard.do", "/addCardListCommand.do", "/deleteCardListCommand.do"})
+@WebServlet({"/cardListBoard.do", "/addCardListCommand.do", "/deleteCardListCommand.do", "/inviteCommand.do"})
 public class CardListBoardController extends HttpServlet {
 	private static final long serialVersionUID = -1455852485594261268L;
 	
@@ -54,6 +55,11 @@ public class CardListBoardController extends HttpServlet {
 	    // 카드 리스트 삭제 처리
 	    else if(com.equals("/deleteCardListCommand.do")) {
 	    	command = new DeleteCardListCommand();
+	    	forward = command.execute(request, response);
+	    }
+	    // 초대하기 처리
+	    else if(com.equals("/inviteCommand.do")) {
+	    	command = new InviteCommand();
 	    	forward = command.execute(request, response);
 	    }
 	    
