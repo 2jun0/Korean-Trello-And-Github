@@ -43,7 +43,7 @@ public class BoardDAO {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		
-		String s_idList = ';'+String.join(";", idList);
+		String s_idList = ';'+String.join(":;", idList)+':';
 		
 		try {
 			// 커넥션을 가져온다.
@@ -141,7 +141,7 @@ public class BoardDAO {
 				String[] idList = new String[temp.length-1];
 				
 				for(int i = 0; i < idList.length; i++) {
-					idList[i] = temp[i+1];
+					idList[i] = temp[i+1].substring(0,temp[i+1].length()-1);
 				}
 						
 				dto = new BoardDTO(num, boardName, idList, adminId);
@@ -166,22 +166,38 @@ public class BoardDAO {
 	public void inviteUser(int num, String userId) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		ResultSet rs;
 		
 		try {
 			// 커넥션을 가져온다.
 			con = dataFactory.getConnection();
 			
-			// 쿼리문
-			String query = "select concat( id_list, ';', ?) from Board where num=?";
+			String query = "select * from Board where num=? and id_list like ?";
 			
 			pstmt = con.prepareStatement(query);
 			
-			// 쿼리문에 값 입력
-			pstmt.setString(1, userId);
-			pstmt.setInt(2, num);
+			pstmt.setInt(1, num);
+			pstmt.setString(2, "%;" + userId + ":%");
 			
-			// 쿼리문 실행
-			int n = pstmt.executeUpdate();
+			rs  = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				//이미 있음
+			}else {
+				
+				// 쿼리문
+				query = "update Board set id_list = concat(id_list, ?) where num=?";
+				
+				pstmt = con.prepareStatement(query);
+				
+				// 쿼리문에 값 입력
+				pstmt.setString(1, ';'+userId+':');
+				pstmt.setInt(2, num);
+				
+				// 쿼리문 실행
+				int n = pstmt.executeUpdate();
+			}
 			
 		}catch(Exception e) {
 			e.printStackTrace();
@@ -212,8 +228,7 @@ public class BoardDAO {
 			
 			pstmt = con.prepareStatement(query);
 			
-			pstmt.setString(1, "%;" + userId + "%");
-			
+			pstmt.setString(1, "%;" + userId + ":%");
 			// pstmt.executeQuery()는
 			// select 할때 사용
 			rs = pstmt.executeQuery();
@@ -229,7 +244,7 @@ public class BoardDAO {
 				String[] idList = new String[temp.length-1];
 				
 				for(int i = 0; i < idList.length; i++) {
-					idList[i] = temp[i+1];
+					idList[i] = temp[i+1].substring(0,temp[i+1].length()-1);
 				}
 						
 				BoardDTO dto = new BoardDTO(num, boardName, idList, adminId);

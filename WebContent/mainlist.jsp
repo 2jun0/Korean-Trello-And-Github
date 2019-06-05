@@ -172,6 +172,11 @@
           });
       </script>
    </head>
+   
+   <%
+		String sessionId = (String)session.getAttribute("sessionId");
+   		pageContext.setAttribute("sessionId", sessionId);
+   %>
 
    <body>
    	<form id="submitForm" action="" method="post">
@@ -203,7 +208,7 @@
           
           <div class="collapse navbar-collapse">
             <ul style="margin-left:70%;" class="navbar-nav" >
-               <li class="nav-item"><a onclick="popupAddBoard()" class="nav-link">게시판추가</a></li>
+               <li class="nav-item"><a class="nav-link" onclick="popupAddBoard()" class="nav-link">게시판추가</a></li>
                <li class="nav-item"><a class="nav-link" href="logoutCommand.do">로그아웃</a></li>
             </ul>
          </div>
@@ -218,7 +223,9 @@
          
          	<div onclick="showCardListBoard(${dto.num})" class="boardbutton">
                	<span class="boardtitle">${dto.boardName}</span>
-               	<button class="boardtitle-extra" type="button" onclick="deleteBoard(${dto.num})"> <i class="material-icons delete-icon">delete</i> </button>
+               	<c:if test="${dto.adminId eq sessionId}">
+               		<button class="boardtitle-extra" type="button" onclick="deleteBoard(${dto.num})"> <i class="material-icons delete-icon">delete</i> </button>
+	            </c:if>
             </div>
             
          </c:forEach>

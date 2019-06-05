@@ -11,6 +11,12 @@
 	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	
     <style type="text/css">
+    	 #logoimg{
+            width:130px;
+            height:30px;
+            margin-left:190%;
+         }
+         
 		.login-container{
 			height: 370px;
 		    margin-top: 5%;
@@ -74,6 +80,25 @@
 </head>
 
 <body>
+
+	<header class="navbar navbar-expand-sm navbar-dark" style="background-color: #026aa7; height:50px; display:flex;">
+         <div class="collapse navbar-collapse">
+             <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link"></a></li>
+                <li class="nav-item"><a class="nav-link"></a></li>
+            </ul>
+          </div>
+          
+         <div class="collapse navbar-collapse" style="margin:auto;">
+            <a href="main.do"><img id="logoimg" src="trello1.png"></a>
+         </div>
+         
+         <div class="collapse navbar-collapse">
+           <ul style="margin-left:86%;" class="navbar-nav" >
+              <li class="nav-item"><a class="nav-link" href="main.do">로그인</a></li>
+           </ul>
+        </div>
+     </header>
 
     <div class="container login-container">
         <div class="login-form-1">
