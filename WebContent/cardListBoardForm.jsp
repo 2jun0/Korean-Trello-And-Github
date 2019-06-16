@@ -275,18 +275,6 @@
     	}
     }
     
-    function checkInviteValue()
-    {
-    	var memberName = document.inviteForm.memberName;
-    	
-    	if(!memberName.value)
-   		{
-    		alert("초대할 유저 아이디를 입력해주세요!");
-    		memberName.focus();
-    		return false;
-   		}
-   	}
-    
     function checkCardValue()
     {
     	// TODO: 카트 내용 수정할때 확인하는 코드
@@ -319,17 +307,11 @@
     	
     	var form = document.submitCardForm;
     	
-    	form.memberName.value = cardListNum;
+    	form.cardlistnum.value = cardListNum;
     	form.cardnum.value = cardNum;
     	form.action = "card.do";
     	form.target = "cardIframe";
     	form.submit();
-    }
-    
-    function popupAddMember()
-    {
-    	var modal = document.getElementById('inviteModal');
-    	modal.style.display = "block";
     }
 
     // When the user clicks anywhere outside of the modal, close it
@@ -344,38 +326,12 @@
             modal.style.display = "none";
             reload();
         }
-        
-        var modal = document.getElementById('inviteModal');
-        if (event.target == modal) {
-            modal.style.display = "none";
-            reload();
-        }
     }
 
     </script>
 
 </head>
 <body style="background-color: rgb(0, 121, 191);">
-
-	<header class="navbar navbar-expand-sm navbar-dark" style="background-color: #026aa7; height:50px; display:flex;">
-          <div class="collapse navbar-collapse">
-             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link" href="mainlist.do">홈</a></li>
-                <li class="nav-item"><a class="nav-link" href="mainlist.do">게시판목록</a></li>
-            </ul>
-          </div>
-          
-          <div class="collapse navbar-collapse" style="margin:auto;">
-             <a href="mainlist.do"><img id="logoimg" src="trello1.png"></a>
-          </div>
-          
-          <div class="collapse navbar-collapse">
-            <ul style="margin-left:70%;" class="navbar-nav" >
-               <li class="nav-item"><a class="nav-link" onclick="popupAddMember()" class="nav-link">초대하기</a></li>
-               <li class="nav-item"><a class="nav-link" href="logoutCommand.do">로그아웃</a></li>
-            </ul>
-         </div>
-      </header>
 
 	<!-- 뭔가를 submit하려고 만든 폼 -->
 	<form name="submitForm" style="display:none" method="get">
@@ -407,18 +363,6 @@
 		<div class="modal-content card">
 			<iframe name="cardIframe" frameborder=0 framespacing=0 marginheight=0 marginwidth=0 vspace=0 style="display: block; height: 100%">
 			</iframe>
-		</div>
-	</div>
-	
-	<!-- 초대관련 Modal -->
-	<div id = "inviteModal" class="modal">
-		<div class="modal-content">
-			<form name="inviteForm" action="inviteCommand.do?boardnum=${param.boardnum}" method="post" onsubmit="return checkInviteValue()">
-				<h2>유저 초대하기</h2>
-				초대할 유저 아이디<br>
-				<input type="text" name="memberName"/>
-				<input class="btnSubmit" type="submit" value="초대하기"/>
-			</form>
 		</div>
 	</div>
 
@@ -458,18 +402,6 @@
 			</div>
 		</div>
 	</div>
-
-	<%
-       	// 없는 유저일 경우  Alert로 표시
-		Object failed = request.getAttribute("invite failed");
-		if(failed != null && ((Boolean)failed))
-		{
-     		out.println("<script type='text/javascript'>");
-     		out.println("alert('해당하는 유저가 없습니다!');");
-     		out.println("</script>");
-     		out.flush();
-		}
-	%>
 
 </body>
 </html>
