@@ -128,14 +128,14 @@
       <script>
       var isDeleteBtnHover = false;
       
-      	function showCardListBoard(num)
+      	function showBoard(num)
       	{
       		if(isDeleteBtnHover)
       			return;
       		
       		var form = document.getElementById('submitForm');
      		form.boardnum.value = num;
-     		form.action = "cardListBoard.do"; 
+     		form.action = "board.do"; 
      		form.method = "get";
      		form.submit();
       	}
@@ -221,7 +221,7 @@
          <!-- 게시판 목록 -->
          <c:forEach items="${boardDTO}" var="dto">
          
-         	<div onclick="showCardListBoard(${dto.num})" class="boardbutton">
+         	<div onclick="showBoard(${dto.num})" class="boardbutton">
                	<span class="boardtitle">${dto.boardName}</span>
                	<c:if test="${dto.adminId eq sessionId}">
                		<button class="boardtitle-extra" type="button" onclick="deleteBoard(${dto.num})"> <i class="material-icons delete-icon">delete</i> </button>

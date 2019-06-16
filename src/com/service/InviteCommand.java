@@ -20,15 +20,16 @@ public class InviteCommand implements Command {
 		
 		int flag = UserDAO.getInstance().idCheck(memberId);
 		
-		if(flag == 1) {
+		if(flag != 1) {
 			request.setAttribute("invite failed", true);
+		}else {
+			BoardDAO.getInstance().inviteUser(boardnum, memberId);
 		}
 		
-		BoardDAO.getInstance().inviteUser(boardnum, memberId);
 		
 		CommandForward forward = new CommandForward();
 		forward.setRedirect(true);
-		forward.setNextPath("cardListBoard.do?boardnum="+boardnum);
+		forward.setNextPath("board.do?boardnum="+boardnum);
 		return forward;
 	}
 
