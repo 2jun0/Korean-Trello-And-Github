@@ -15,6 +15,7 @@ public CommandForward execute(HttpServletRequest request, HttpServletResponse re
 		
 		String day = request.getParameter("day");
 		String parent_num = request.getParameter("parent_num");
+		System.out.println(parent_num);
 		int boardnum = Integer.parseInt(request.getParameter("boardnum"));
 		
 		request.setAttribute("day", day);

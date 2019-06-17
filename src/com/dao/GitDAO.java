@@ -268,12 +268,12 @@ public class GitDAO {
 		try {
 			con = dataFactory.getConnection();
 			
-			String query = "SELECT name FROM folder where day = '"+ day +"'&&parent_num = " + num + "&&num="+boardnum+";";
+			String query = "SELECT name FROM folder where day = '"+ day +"'&&parent_num = " + num + "&&boardnum="+boardnum+";";
 			
 			stmt = con.createStatement();
 			
 			rs = stmt.executeQuery(query);
-			
+			System.out.println(query);
 			while(rs.next())
 			{
 				name.add(rs.getString("name"));
