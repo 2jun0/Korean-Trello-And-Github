@@ -6,7 +6,7 @@
 <html>
    <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <title>게시판 화면</title>
+      <title>메인 화면</title>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
       <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -225,6 +225,9 @@
                	<span class="boardtitle">${dto.boardName}</span>
                	<c:if test="${dto.adminId eq sessionId}">
                		<button class="boardtitle-extra" type="button" onclick="deleteBoard(${dto.num})"> <i class="material-icons delete-icon">delete</i> </button>
+	            </c:if>
+	            <c:if test="${dto.adminId ne sessionId}">
+               		<button class="boardtitle-extra" type="button" style="visibility:hidden"> <i class="material-icons delete-icon">delete</i> </button>
 	            </c:if>
             </div>
             

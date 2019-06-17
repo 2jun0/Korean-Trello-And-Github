@@ -104,7 +104,7 @@ if (event.target == modal) {
 
 
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>Insert title here</title>
+<title>게시판</title>
 </head>
 <body class="table-content">
 
